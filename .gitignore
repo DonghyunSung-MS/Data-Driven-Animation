@@ -139,3 +139,5 @@ cython_debug/
 
 #ignore data set
 data/
+model/config.py
+wandb/

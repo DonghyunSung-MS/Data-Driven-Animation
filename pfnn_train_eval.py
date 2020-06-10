@@ -25,7 +25,7 @@ torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 
 """Loading Data"""
-dataset = PFNNDataSet('./data/pfnn/database_from_multi_small.npz', args)
+dataset = PFNNDataSet('./data/pfnn/database_from_multi.npz', args)
 validation_split = .2
 dataset_size = len(dataset)
 indices = list(range(dataset_size))
@@ -61,9 +61,9 @@ if args.wandb:
     wandb.init(project="data_driven_animation")
 
 model.train()
-import time
+#import time
 for epoch in range(args.epoch):
-    s = time.time()
+    #s = time.time()
     for i, data in enumerate(train_loader):
         inputs, phases, outputs = data
         if args.gpu:
@@ -77,16 +77,16 @@ for epoch in range(args.epoch):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        print(time.time() - s)
-        break
-        if i%log_interval==0: #assume log and save model interval is same
+        #print(time.time() - s)
+        #break
+        if i%args.log_interval==0: #assume log and save model interval is same
             model.save_model(i,args.save_dir)
             if args.wandb:
                 wandb.log({"train_iter":i,
                            "train_loss":loss,
                            "train_l1_norm":l1_norm})
 
-"""
+
 model.eval()
 for epoch in range(args.test_epoch):
     s = time.time()
@@ -101,9 +101,9 @@ for epoch in range(args.test_epoch):
         l1_norm = torch.norm(model.phase_function.layer1.weight,p=1)
         loss = mse(outputs, pred_outputs) + args.lasso_coef*l1_norm
         print(time.time() - s)
-        if i%log_interval==0: #assume log and save model interval is same
+        if i%args.log_interval==0: #assume log and save model interval is same
             model.save_model(i,args.save_dir)
             if args.wandb:
                 wandb.log({"test_iter":i,
                            "test_loss":loss})
-"""
+

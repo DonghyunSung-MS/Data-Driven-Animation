@@ -7,7 +7,7 @@ CONFIGS = {
         "gpu":True,
         "wandb":False,
         "batch_size": 32,
-        "lr":0.003,
+        "lr":0.001,
         "lasso_coef":0.01,
         "shuffle": True,
         "epoch": 20,
