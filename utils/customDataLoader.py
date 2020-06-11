@@ -49,13 +49,14 @@ class PFNNDataSet(Dataset):
         Ystd[8+w*2+j*3*0:8+w*2+j*3*1] = Ystd[8+w*2+j*3*0:8+w*2+j*3*1].mean() # Pos
         Ystd[8+w*2+j*3*1:8+w*2+j*3*2] = Ystd[8+w*2+j*3*1:8+w*2+j*3*2].mean() # Vel
         Ystd[8+w*2+j*3*2:8+w*2+j*3*3] = Ystd[8+w*2+j*3*2:8+w*2+j*3*3].mean() # Rot
+        '''
         path = filename.split('.')
         np.savez_compressed("." + path[1] + "_para.npz", Xmean = Xmean,
                                                         Xstd = Xstd,
                                                         Ymean = Ymean,
                                                         Yste = Ystd)
 
-
+        '''                        
         """making tensor"""
         self.len_data = X.shape[0]
         self.x = torch.from_numpy(X).unsqueeze(1)
