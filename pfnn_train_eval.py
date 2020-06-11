@@ -59,7 +59,7 @@ summary(model,[(1,input_dim),(1,1)])
 """train start"""
 if args.wandb:
     wandb.init(project="data_driven_animation")
-
+"""
 model.train()
 #import time
 for epoch in range(args.epoch):
@@ -86,10 +86,10 @@ for epoch in range(args.epoch):
                            "train_loss":loss,
                            "train_l1_norm":l1_norm})
 
-
+"""
 model.eval()
+model.load_model("./data/pfnn/nn/108830pfnn.pth.tar")
 for epoch in range(args.test_epoch):
-    s = time.time()
     for i, data in enumerate(valid_loader):
         inputs, phases, outputs = data
         if args.gpu:
@@ -100,10 +100,7 @@ for epoch in range(args.test_epoch):
         pred_outputs = model(inputs, phases)
         l1_norm = torch.norm(model.phase_function.layer1.weight,p=1)
         loss = mse(outputs, pred_outputs) + args.lasso_coef*l1_norm
-        print(time.time() - s)
         if i%args.log_interval==0: #assume log and save model interval is same
-            model.save_model(i,args.save_dir)
             if args.wandb:
                 wandb.log({"test_iter":i,
                            "test_loss":loss})
-
