@@ -19,7 +19,7 @@ class PhaseFunction(nn.Module):
         self.layer1 = nn.Linear(4, self.phase_function_output_dim, bias=False)
 
     def forward(self, phase):
-        w = 4*phase/(2*np.pi)
+        w = phase#[0,1]
         one = torch.ones_like(w,requires_grad=True)
         input = torch.cat([one, w, w**2, w**3], 2)
         return self.layer1(input)
